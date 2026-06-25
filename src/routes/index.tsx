@@ -130,29 +130,31 @@ function Hero() {
         alt="ARDOR Infrastructure smart city with solar farm"
         width={1536}
         height={1024}
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-left-top"
+        className="absolute inset-0 -z-10 h-full w-full object-cover object-bottom"
         style={{ y: y1 }}
         animate={{ scale: [1, 1.03, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut"}
       />
 
-      {/* no overlay — let uploaded mockup show as-is */}
+      {/* readability overlay: left side light for text, right side clear for city */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/85 via-white/40 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
 
-      {/* animated color blobs */}
+      {/* animated brand glows */}
       <motion.div
-        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/15 blur-3xl"
+        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/10 blur-3xl"
         animate={{ x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/20 blur-3xl"
+        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/15 blur-3xl"
         animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* shimmer sweep */}
       <motion.div
-        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent"
         animate={{ x: ["0%", "400%"] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
       />
