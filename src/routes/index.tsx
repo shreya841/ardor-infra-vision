@@ -7,7 +7,7 @@ import {
   HardHat, Phone, Mail, MapPin, Linkedin, Twitter, Facebook, Menu, X,
 } from "lucide-react";
 
-import heroImg from "@/assets/hero-infrastructure.png";
+import heroImg from "@/assets/hero-smartcity.jpg";
 import pSolar from "@/assets/project-solar-farm.jpg";
 import pGrid from "@/assets/project-electrical-grid.jpg";
 import pIndustrial from "@/assets/project-industrial.jpg";
@@ -124,13 +124,38 @@ function Hero() {
 
   return (
     <section id="home" ref={ref} className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
-      {/* backdrop */}
+      {/* animated backdrop */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-surface via-white to-white" />
       <div className="absolute inset-0 -z-10 grid-bg opacity-60" />
-      <div className="absolute -left-40 top-20 -z-10 h-[420px] w-[420px] rounded-full bg-brand/10 blur-3xl" />
-      <div className="absolute -right-32 top-60 -z-10 h-[360px] w-[360px] rounded-full bg-cyan/20 blur-3xl" />
+      <motion.div
+        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/15 blur-3xl"
+        animate={{ x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/25 blur-3xl"
+        animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute left-1/3 bottom-0 -z-10 h-[320px] w-[320px] rounded-full bg-brand-soft/20 blur-3xl"
+        animate={{ y: [0, -40, 0], scale: [1, 1.2, 1] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* floating particles */}
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        {Array.from({ length: 14 }).map((_, i) => (
+          <motion.span
+            key={i}
+            className="absolute h-1.5 w-1.5 rounded-full bg-brand/50"
+            style={{ left: `${(i * 73) % 100}%`, top: `${(i * 41) % 100}%` }}
+            animate={{ y: [0, -30, 0], opacity: [0.2, 0.9, 0.2] }}
+            transition={{ duration: 5 + (i % 5), repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+          />
+        ))}
+      </div>
 
-      <div className="container-x grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+      <div className="container-x grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
         <div>
           <motion.span
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
@@ -157,7 +182,7 @@ function Hero() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.25 }}
             className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft"
           >
-            Delivering Electrical, Solar, Industrial and Infrastructure Solutions with innovation, reliability and engineering excellence across India.
+            Delivering Innovative Electrical, Solar Energy, Industrial Installation, and Infrastructure Solutions Across India.
           </motion.p>
 
           <motion.div
@@ -168,63 +193,91 @@ function Hero() {
             <a href="#projects" className="btn-ghost">View Projects</a>
           </motion.div>
 
+          {/* hero stats grid */}
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7, duration: 0.8 }}
-            className="mt-10 flex flex-wrap items-center gap-6 text-sm text-ink-soft"
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55 }}
+            className="mt-10 grid max-w-lg grid-cols-2 gap-3"
           >
-            {["ISO 9001:2015", "MSME Certified", "Govt. Approved Vendor"].map((t) => (
-              <div key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4 text-brand" />{t}</div>
+            {[
+              { icon: Building2, value: 50, suffix: "+", label: "Infrastructure Projects" },
+              { icon: Sun, value: 100, suffix: "MW+", label: "Solar Installations" },
+              { icon: Cog, value: 25, suffix: "+", label: "Engineering Solutions" },
+              { icon: Award, value: 98, suffix: "%", label: "Client Satisfaction" },
+            ].map((s) => (
+              <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-border bg-white/80 p-4 shadow-soft backdrop-blur">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand/10 to-cyan/10 text-brand">
+                  <s.icon className="h-5 w-5" />
+                </div>
+                <div className="leading-tight">
+                  <div className="font-display text-2xl font-extrabold text-ink">
+                    <Counter to={s.value} suffix={s.suffix} />
+                  </div>
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">{s.label}</div>
+                </div>
+              </div>
             ))}
           </motion.div>
         </div>
 
         {/* Hero visual */}
         <motion.div style={{ y: y1 }} className="relative">
-          <div className="relative rounded-3xl bg-gradient-to-br from-white to-surface p-4 shadow-card ring-1 ring-border">
-            <div className="overflow-hidden rounded-2xl bg-gradient-to-b from-surface to-white">
-              <motion.img
-                src={heroImg}
-                alt="ARDOR Infrastructure ecosystem with solar, grid, smart city"
-                width={1280} height={1024}
-                className="h-auto w-full"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              />
-            </div>
-
-            {/* spinning wind turbine svg overlay */}
-            <div className="pointer-events-none absolute right-10 top-10">
-              <div className="relative h-16 w-16">
-                <div className="absolute left-1/2 top-0 h-10 w-0.5 -translate-x-1/2 bg-ink-soft/40" />
-                <Wind className="animate-spin-slow absolute -top-2 left-1/2 h-8 w-8 -translate-x-1/2 text-brand drop-shadow" strokeWidth={1.5} />
-              </div>
-            </div>
-
-            {/* floating stat card */}
+          {/* glowing animated ring behind image */}
+          <motion.div
+            className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-brand/20 via-cyan/20 to-brand-soft/20 blur-2xl"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            animate={{ y: [0, -14, 0] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            className="relative overflow-hidden rounded-3xl shadow-card ring-1 ring-border"
+          >
+            <img
+              src={heroImg}
+              alt="ARDOR Infrastructure smart city with solar farm"
+              width={1536} height={1024}
+              className="h-auto w-full"
+            />
+            {/* shimmer sweep */}
             <motion.div
-              style={{ y: y2 }}
-              className="absolute -left-6 bottom-10 hidden rounded-2xl bg-white px-5 py-4 shadow-card ring-1 ring-border md:block"
-            >
-              <div className="flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand"><Sun className="h-5 w-5" /></div>
-                <div>
-                  <div className="text-xs font-medium uppercase tracking-wider text-ink-soft">Live Capacity</div>
-                  <div className="font-display text-lg font-bold text-ink">1.5 GW Installed</div>
-                </div>
-              </div>
-            </motion.div>
+              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+              animate={{ x: ["0%", "400%"] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
+            />
+          </motion.div>
 
-            <motion.div
-              animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}
-              className="absolute -right-4 top-24 hidden rounded-2xl bg-white px-4 py-3 shadow-card ring-1 ring-border md:flex md:items-center md:gap-2.5"
-            >
-              <span className="relative grid h-2.5 w-2.5">
-                <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/60" />
-                <span className="relative h-2.5 w-2.5 rounded-full bg-emerald-500" />
-              </span>
-              <span className="text-sm font-semibold text-ink">99% Uptime</span>
-            </motion.div>
+          {/* spinning wind turbine svg overlay */}
+          <div className="pointer-events-none absolute right-10 top-10">
+            <div className="relative h-16 w-16">
+              <div className="absolute left-1/2 top-0 h-10 w-0.5 -translate-x-1/2 bg-ink-soft/40" />
+              <Wind className="animate-spin-slow absolute -top-2 left-1/2 h-8 w-8 -translate-x-1/2 text-brand drop-shadow" strokeWidth={1.5} />
+            </div>
           </div>
+
+          {/* floating stat card */}
+          <motion.div
+            style={{ y: y2 }}
+            className="absolute -left-6 bottom-10 hidden rounded-2xl bg-white px-5 py-4 shadow-card ring-1 ring-border md:block"
+          >
+            <div className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand"><Sun className="h-5 w-5" /></div>
+              <div>
+                <div className="text-xs font-medium uppercase tracking-wider text-ink-soft">Live Capacity</div>
+                <div className="font-display text-lg font-bold text-ink"><Counter to={1500} suffix=" MW" /></div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}
+            className="absolute -right-4 top-24 hidden rounded-2xl bg-white px-4 py-3 shadow-card ring-1 ring-border md:flex md:items-center md:gap-2.5"
+          >
+            <span className="relative grid h-2.5 w-2.5">
+              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/60" />
+              <span className="relative h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            </span>
+            <span className="text-sm font-semibold text-ink">99% Uptime</span>
+          </motion.div>
         </motion.div>
       </div>
     </section>
