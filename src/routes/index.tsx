@@ -123,12 +123,26 @@ function Hero() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   return (
-    <section id="home" ref={ref} className="relative overflow-hidden pt-32 pb-24 md:pt-40 md:pb-32">
-      {/* animated backdrop */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-surface via-white to-white" />
-      <div className="absolute inset-0 -z-10 grid-bg opacity-60" />
+    <section id="home" ref={ref} className="relative min-h-screen overflow-hidden">
+      {/* full-bleed background image */}
+      <motion.img
+        src={heroImg}
+        alt="ARDOR Infrastructure smart city with solar farm"
+        width={1536}
+        height={1024}
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
+        style={{ y: y1 }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+      />
+      {/* readability overlays */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/75 to-white/20" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/40 via-transparent to-white/80" />
+      <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
+
+      {/* animated color blobs */}
       <motion.div
-        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/15 blur-3xl"
+        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/20 blur-3xl"
         animate={{ x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -137,26 +151,37 @@ function Hero() {
         animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
+
+      {/* shimmer sweep */}
       <motion.div
-        className="absolute left-1/3 bottom-0 -z-10 h-[320px] w-[320px] rounded-full bg-brand-soft/20 blur-3xl"
-        animate={{ y: [0, -40, 0], scale: [1, 1.2, 1] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+        animate={{ x: ["0%", "400%"] }}
+        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
       />
+
       {/* floating particles */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        {Array.from({ length: 14 }).map((_, i) => (
+        {Array.from({ length: 18 }).map((_, i) => (
           <motion.span
             key={i}
-            className="absolute h-1.5 w-1.5 rounded-full bg-brand/50"
+            className="absolute h-1.5 w-1.5 rounded-full bg-brand/60"
             style={{ left: `${(i * 73) % 100}%`, top: `${(i * 41) % 100}%` }}
-            animate={{ y: [0, -30, 0], opacity: [0.2, 0.9, 0.2] }}
+            animate={{ y: [0, -40, 0], opacity: [0.2, 0.9, 0.2] }}
             transition={{ duration: 5 + (i % 5), repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
           />
         ))}
       </div>
 
-      <div className="container-x grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
-        <div>
+      {/* spinning wind turbine accent */}
+      <div className="pointer-events-none absolute right-10 top-32 hidden md:block">
+        <div className="relative h-20 w-20">
+          <div className="absolute left-1/2 top-0 h-12 w-0.5 -translate-x-1/2 bg-ink-soft/40" />
+          <Wind className="animate-spin-slow absolute -top-3 left-1/2 h-10 w-10 -translate-x-1/2 text-brand drop-shadow" strokeWidth={1.5} />
+        </div>
+      </div>
+
+      <div className="container-x relative flex min-h-screen items-center pt-32 pb-20 md:pt-40 md:pb-28">
+        <div className="max-w-2xl">
           <motion.span
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="eyebrow"
@@ -166,7 +191,7 @@ function Hero() {
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="mt-6 text-balance text-5xl font-extrabold leading-[1.05] tracking-tight text-ink md:text-6xl lg:text-7xl"
+            className="mt-6 text-balance text-5xl font-extrabold uppercase leading-[1.02] tracking-tight text-ink md:text-6xl lg:text-7xl"
           >
             Powering Tomorrow's{" "}
             <span className="relative inline-block">
@@ -187,7 +212,7 @@ function Hero() {
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-9 flex flex-wrap items-center gap-3"
+            className="mt-8 flex flex-wrap items-center gap-3"
           >
             <a href="#services" className="btn-primary">Explore Services <ArrowRight className="h-4 w-4" /></a>
             <a href="#projects" className="btn-ghost">View Projects</a>
@@ -195,8 +220,9 @@ function Hero() {
 
           {/* hero stats grid */}
           <motion.div
+            style={{ y: y2 }}
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55 }}
-            className="mt-10 grid max-w-lg grid-cols-2 gap-3"
+            className="mt-10 grid max-w-xl grid-cols-2 gap-3"
           >
             {[
               { icon: Building2, value: 50, suffix: "+", label: "Infrastructure Projects" },
@@ -204,7 +230,7 @@ function Hero() {
               { icon: Cog, value: 25, suffix: "+", label: "Engineering Solutions" },
               { icon: Award, value: 98, suffix: "%", label: "Client Satisfaction" },
             ].map((s) => (
-              <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-border bg-white/80 p-4 shadow-soft backdrop-blur">
+              <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/80 p-4 shadow-soft backdrop-blur-md">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand/10 to-cyan/10 text-brand">
                   <s.icon className="h-5 w-5" />
                 </div>
@@ -218,67 +244,6 @@ function Hero() {
             ))}
           </motion.div>
         </div>
-
-        {/* Hero visual */}
-        <motion.div style={{ y: y1 }} className="relative">
-          {/* glowing animated ring behind image */}
-          <motion.div
-            className="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-tr from-brand/20 via-cyan/20 to-brand-soft/20 blur-2xl"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            animate={{ y: [0, -14, 0] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="relative overflow-hidden rounded-3xl shadow-card ring-1 ring-border"
-          >
-            <img
-              src={heroImg}
-              alt="ARDOR Infrastructure smart city with solar farm"
-              width={1536} height={1024}
-              className="h-auto w-full"
-            />
-            {/* shimmer sweep */}
-            <motion.div
-              className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-              animate={{ x: ["0%", "400%"] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-            />
-          </motion.div>
-
-          {/* spinning wind turbine svg overlay */}
-          <div className="pointer-events-none absolute right-10 top-10">
-            <div className="relative h-16 w-16">
-              <div className="absolute left-1/2 top-0 h-10 w-0.5 -translate-x-1/2 bg-ink-soft/40" />
-              <Wind className="animate-spin-slow absolute -top-2 left-1/2 h-8 w-8 -translate-x-1/2 text-brand drop-shadow" strokeWidth={1.5} />
-            </div>
-          </div>
-
-          {/* floating stat card */}
-          <motion.div
-            style={{ y: y2 }}
-            className="absolute -left-6 bottom-10 hidden rounded-2xl bg-white px-5 py-4 shadow-card ring-1 ring-border md:block"
-          >
-            <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand/10 text-brand"><Sun className="h-5 w-5" /></div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wider text-ink-soft">Live Capacity</div>
-                <div className="font-display text-lg font-bold text-ink"><Counter to={1500} suffix=" MW" /></div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity }}
-            className="absolute -right-4 top-24 hidden rounded-2xl bg-white px-4 py-3 shadow-card ring-1 ring-border md:flex md:items-center md:gap-2.5"
-          >
-            <span className="relative grid h-2.5 w-2.5">
-              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/60" />
-              <span className="relative h-2.5 w-2.5 rounded-full bg-emerald-500" />
-            </span>
-            <span className="text-sm font-semibold text-ink">99% Uptime</span>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );
