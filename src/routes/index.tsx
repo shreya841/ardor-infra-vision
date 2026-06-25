@@ -136,10 +136,7 @@ function Hero() {
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* subtle overlay so left-side text stays readable over the mockup */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/80 via-white/40 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/20 via-transparent to-white/50" />
-      <div className="absolute inset-0 -z-10 grid-bg opacity-15" />
+      {/* no overlay — let uploaded mockup show as-is */}
 
       {/* animated color blobs */}
       <motion.div
