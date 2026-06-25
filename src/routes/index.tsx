@@ -133,7 +133,7 @@ function Hero() {
         className="absolute inset-0 -z-10 h-full w-full object-cover object-bottom"
         style={{ y: y1 }}
         animate={{ scale: [1, 1.03, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut"}
+        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* readability overlay: left side light for text, right side clear for city */}
