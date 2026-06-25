@@ -123,44 +123,46 @@ function Hero() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   return (
-    <section id="home" ref={ref} className="relative isolate min-h-screen overflow-hidden">
-      {/* full-bleed background image */}
-      <motion.img
-        src={heroImg}
-        alt="ARDOR Infrastructure smart city with solar farm"
-        width={1536}
-        height={1024}
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-bottom"
-        style={{ y: y1 }}
-        animate={{ scale: [1, 1.03, 1] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+    <section id="home" ref={ref} className="relative isolate min-h-screen overflow-hidden bg-gradient-to-b from-white via-surface to-white">
+      {/* light theme animated grid backdrop */}
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.5]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(11,99,246,0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(11,99,246,0.07) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 80%)",
+        }}
       />
-
-      {/* readability overlay: left side light for text, right side clear for city */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/85 via-white/40 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
 
       {/* animated brand glows */}
       <motion.div
-        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/10 blur-3xl"
+        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/15 blur-3xl"
         animate={{ x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/15 blur-3xl"
+        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/20 blur-3xl"
         animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* shimmer sweep */}
-      <motion.div
-        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        animate={{ x: ["0%", "400%"] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
-      />
+      {/* floating particles */}
+      {Array.from({ length: 14 }).map((_, i) => (
+        <motion.span
+          key={i}
+          className="pointer-events-none absolute -z-10 block h-1.5 w-1.5 rounded-full bg-brand/40"
+          style={{
+            left: `${(i * 53) % 100}%`,
+            top: `${(i * 37) % 100}%`,
+          }}
+          animate={{ y: [0, -30, 0], opacity: [0.2, 0.8, 0.2] }}
+          transition={{ duration: 6 + (i % 5), repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+        />
+      ))}
 
-      <div className="container-x relative flex min-h-screen items-center pt-32 pb-20 md:pt-40 md:pb-28">
-        <div className="max-w-2xl">
+      <div className="container-x relative grid min-h-screen items-center gap-10 pt-32 pb-20 md:pt-36 md:pb-24 lg:grid-cols-2">
+        <motion.div style={{ y: y1 }} className="max-w-2xl">
           <motion.span
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="eyebrow"
@@ -199,7 +201,6 @@ function Hero() {
 
           {/* hero stats grid */}
           <motion.div
-            style={{ y: y2 }}
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.55 }}
             className="mt-10 grid max-w-xl grid-cols-2 gap-3"
           >
@@ -209,8 +210,13 @@ function Hero() {
               { icon: Cog, value: 100, suffix: "+", label: "Engineering Solutions" },
               { icon: Award, value: 99, suffix: "%", label: "Client Satisfaction" },
             ].map((s) => (
-              <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/80 p-4 shadow-soft backdrop-blur-md">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand/10 to-cyan/10 text-brand">
+              <motion.div
+                key={s.label}
+                whileHover={{ y: -4, rotateX: 4, rotateY: -4 }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/80 p-4 shadow-soft backdrop-blur-md"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand/15 to-cyan/15 text-brand">
                   <s.icon className="h-5 w-5" />
                 </div>
                 <div className="leading-tight">
@@ -219,12 +225,186 @@ function Hero() {
                   </div>
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">{s.label}</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
-        </div>
+        </motion.div>
+
+        {/* 3D animated infrastructure scene */}
+        <motion.div style={{ y: y2 }} className="relative mx-auto w-full max-w-xl lg:max-w-none">
+          <Hero3DScene />
+        </motion.div>
       </div>
     </section>
+  );
+}
+
+/* ---------- animated 3D infrastructure scene ---------- */
+function Hero3DScene() {
+  return (
+    <div
+      className="relative aspect-square w-full"
+      style={{ perspective: "1400px" }}
+    >
+      {/* soft platform shadow */}
+      <motion.div
+        className="absolute left-1/2 top-[78%] h-10 w-3/4 -translate-x-1/2 rounded-[50%] bg-brand/20 blur-2xl"
+        animate={{ opacity: [0.35, 0.6, 0.35], scaleX: [1, 1.05, 1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* rotating ring */}
+      <motion.svg
+        viewBox="0 0 400 400"
+        className="absolute inset-0 h-full w-full"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      >
+        <defs>
+          <linearGradient id="ringg" x1="0" x2="1">
+            <stop offset="0" stopColor="#0B63F6" stopOpacity="0.0" />
+            <stop offset="0.5" stopColor="#0B63F6" stopOpacity="0.6" />
+            <stop offset="1" stopColor="#00D4FF" stopOpacity="0.0" />
+          </linearGradient>
+        </defs>
+        <circle cx="200" cy="200" r="180" fill="none" stroke="url(#ringg)" strokeWidth="1.5" strokeDasharray="4 8" />
+        <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(11,99,246,0.15)" strokeWidth="1" />
+      </motion.svg>
+
+      {/* counter-rotating ring */}
+      <motion.svg
+        viewBox="0 0 400 400"
+        className="absolute inset-0 h-full w-full"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
+      >
+        <circle cx="200" cy="200" r="120" fill="none" stroke="rgba(0,212,255,0.25)" strokeWidth="1" strokeDasharray="2 10" />
+      </motion.svg>
+
+      {/* isometric platform with solar array, building, turbine */}
+      <motion.svg
+        viewBox="0 0 400 400"
+        className="absolute inset-0 h-full w-full drop-shadow-[0_30px_40px_rgba(11,99,246,0.25)]"
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <defs>
+          <linearGradient id="plat" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#E8F1FF" />
+            <stop offset="1" stopColor="#C9DEFB" />
+          </linearGradient>
+          <linearGradient id="platSide" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#A8C4EC" />
+            <stop offset="1" stopColor="#6B8FC4" />
+          </linearGradient>
+          <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0" stopColor="#1B3A6B" />
+            <stop offset="1" stopColor="#0B63F6" />
+          </linearGradient>
+          <linearGradient id="bldg" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0" stopColor="#FFFFFF" />
+            <stop offset="1" stopColor="#E2ECFA" />
+          </linearGradient>
+        </defs>
+
+        {/* hex platform top */}
+        <polygon points="200,140 320,200 200,260 80,200" fill="url(#plat)" stroke="#B6CFEF" strokeWidth="1" />
+        {/* sides */}
+        <polygon points="200,260 320,200 320,230 200,290" fill="url(#platSide)" />
+        <polygon points="200,260 80,200 80,230 200,290" fill="#8FAED6" />
+
+        {/* building */}
+        <g>
+          <polygon points="170,135 200,150 200,205 170,190" fill="url(#bldg)" stroke="#B6CFEF" />
+          <polygon points="200,150 230,135 230,190 200,205" fill="#D6E4F7" />
+          <polygon points="170,135 200,120 230,135 200,150" fill="#FFFFFF" stroke="#B6CFEF" />
+          {/* windows */}
+          {[0, 1, 2].map((r) => (
+            <g key={r}>
+              <rect x={177} y={148 + r * 15} width="7" height="6" fill="#0B63F6" opacity="0.75" />
+              <rect x={188} y={154 + r * 15} width="7" height="6" fill="#0B63F6" opacity="0.55" />
+              <rect x={208} y={148 + r * 15} width="7" height="6" fill="#0B63F6" opacity="0.75" />
+              <rect x={218} y={142 + r * 15} width="7" height="6" fill="#0B63F6" opacity="0.55" />
+            </g>
+          ))}
+        </g>
+
+        {/* solar array (front-right) */}
+        <g>
+          {[0, 1, 2].map((row) =>
+            [0, 1, 2].map((col) => {
+              const x = 232 + col * 22 - row * 8;
+              const y = 218 + row * 12 + col * 5;
+              return (
+                <polygon
+                  key={`${row}-${col}`}
+                  points={`${x},${y} ${x + 20},${y + 6} ${x + 16},${y + 18} ${x - 4},${y + 12}`}
+                  fill="url(#panel)"
+                  stroke="#00D4FF"
+                  strokeWidth="0.6"
+                />
+              );
+            })
+          )}
+        </g>
+
+        {/* wind turbine (front-left) */}
+        <g>
+          <rect x="118" y="200" width="3" height="40" fill="#9FB6D6" />
+          <motion.g
+            style={{ transformOrigin: "120px 200px" }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+          >
+            <polygon points="120,200 122,170 118,170" fill="#0B63F6" />
+            <polygon points="120,200 145,210 145,206" fill="#0B63F6" />
+            <polygon points="120,200 97,212 97,208" fill="#0B63F6" />
+            <circle cx="120" cy="200" r="3" fill="#0B63F6" />
+          </motion.g>
+        </g>
+      </motion.svg>
+
+      {/* energy pulses */}
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full border border-brand/40"
+          animate={{ scale: [0.6, 1.8], opacity: [0.6, 0] }}
+          transition={{ duration: 4, repeat: Infinity, delay: i * 1.3, ease: "easeOut" }}
+        />
+      ))}
+
+      {/* floating UI chips */}
+      <motion.div
+        className="absolute left-2 top-10 rounded-xl border border-border bg-white/90 px-3 py-2 shadow-card backdrop-blur"
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div className="flex items-center gap-2 text-xs font-semibold text-ink">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+          99% Uptime
+        </div>
+      </motion.div>
+
+      <motion.div
+        className="absolute right-2 top-24 rounded-xl border border-border bg-white/90 px-3 py-2 shadow-card backdrop-blur"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-ink-soft">Live Capacity</div>
+        <div className="font-display text-lg font-extrabold text-brand">1.5 GW</div>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-6 right-6 rounded-xl border border-border bg-white/90 px-3 py-2 shadow-card backdrop-blur"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <div className="flex items-center gap-2 text-xs font-semibold text-ink">
+          <Zap className="h-3.5 w-3.5 text-brand" /> Smart Grid Online
+        </div>
+      </motion.div>
+    </div>
   );
 }
 
