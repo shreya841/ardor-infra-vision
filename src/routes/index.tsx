@@ -123,7 +123,7 @@ function Hero() {
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
 
   return (
-    <section id="home" ref={ref} className="relative min-h-screen overflow-hidden">
+    <section id="home" ref={ref} className="relative isolate min-h-screen overflow-hidden">
       {/* full-bleed background image */}
       <motion.img
         src={heroImg}
