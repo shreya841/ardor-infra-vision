@@ -130,7 +130,7 @@ function Hero() {
         alt="ARDOR Infrastructure smart city with solar farm"
         width={1536}
         height={1024}
-        className="absolute inset-0 -z-20 h-full w-full object-cover object-left-top"
+        className="absolute inset-0 -z-10 h-full w-full object-cover object-left-top"
         style={{ y: y1 }}
         animate={{ scale: [1, 1.03, 1] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
