@@ -126,7 +126,7 @@ function Hero() {
     <section id="home" ref={ref} className="relative min-h-screen overflow-hidden">
       {/* full-bleed background image */}
       <motion.img
-        src={heroImgAsset.url}
+        src={heroImg}
         alt="ARDOR Infrastructure smart city with solar farm"
         width={1536}
         height={1024}
