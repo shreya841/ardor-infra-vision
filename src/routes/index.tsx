@@ -7,7 +7,7 @@ import {
   HardHat, Phone, Mail, MapPin, Linkedin, Twitter, Facebook, Menu, X,
 } from "lucide-react";
 
-import heroImg from "@/assets/ardor-hero-mockup.png";
+import heroImg from "@/assets/ardor-hero-cropped.png";
 import pSolar from "@/assets/project-solar-farm.jpg";
 import pGrid from "@/assets/project-electrical-grid.jpg";
 import pIndustrial from "@/assets/project-industrial.jpg";
