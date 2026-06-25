@@ -126,59 +126,39 @@ function Hero() {
     <section id="home" ref={ref} className="relative min-h-screen overflow-hidden">
       {/* full-bleed background image */}
       <motion.img
-        src={heroImg}
+        src={heroImgAsset.url}
         alt="ARDOR Infrastructure smart city with solar farm"
         width={1536}
         height={1024}
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
+        className="absolute inset-0 -z-20 h-full w-full object-cover object-top"
         style={{ y: y1 }}
-        animate={{ scale: [1, 1.05, 1] }}
+        animate={{ scale: [1, 1.03, 1] }}
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
-      {/* readability overlays */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/75 to-white/20" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/40 via-transparent to-white/80" />
-      <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
+
+      {/* subtle readability overlay for left-side text */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/90 via-white/70 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/30 via-transparent to-white/70" />
+      <div className="absolute inset-0 -z-10 grid-bg opacity-20" />
 
       {/* animated color blobs */}
       <motion.div
-        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/20 blur-3xl"
+        className="absolute -left-40 top-20 -z-10 h-[460px] w-[460px] rounded-full bg-brand/15 blur-3xl"
         animate={{ x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/25 blur-3xl"
+        className="absolute -right-32 top-40 -z-10 h-[420px] w-[420px] rounded-full bg-cyan/20 blur-3xl"
         animate={{ x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.15, 1] }}
         transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* shimmer sweep */}
       <motion.div
-        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+        className="pointer-events-none absolute inset-y-0 -left-1/3 -z-10 w-1/3 bg-gradient-to-r from-transparent via-white/30 to-transparent"
         animate={{ x: ["0%", "400%"] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", repeatDelay: 2 }}
       />
-
-      {/* floating particles */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        {Array.from({ length: 18 }).map((_, i) => (
-          <motion.span
-            key={i}
-            className="absolute h-1.5 w-1.5 rounded-full bg-brand/60"
-            style={{ left: `${(i * 73) % 100}%`, top: `${(i * 41) % 100}%` }}
-            animate={{ y: [0, -40, 0], opacity: [0.2, 0.9, 0.2] }}
-            transition={{ duration: 5 + (i % 5), repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
-          />
-        ))}
-      </div>
-
-      {/* spinning wind turbine accent */}
-      <div className="pointer-events-none absolute right-10 top-32 hidden md:block">
-        <div className="relative h-20 w-20">
-          <div className="absolute left-1/2 top-0 h-12 w-0.5 -translate-x-1/2 bg-ink-soft/40" />
-          <Wind className="animate-spin-slow absolute -top-3 left-1/2 h-10 w-10 -translate-x-1/2 text-brand drop-shadow" strokeWidth={1.5} />
-        </div>
-      </div>
 
       <div className="container-x relative flex min-h-screen items-center pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="max-w-2xl">
@@ -225,10 +205,10 @@ function Hero() {
             className="mt-10 grid max-w-xl grid-cols-2 gap-3"
           >
             {[
-              { icon: Building2, value: 50, suffix: "+", label: "Infrastructure Projects" },
-              { icon: Sun, value: 100, suffix: "MW+", label: "Solar Installations" },
-              { icon: Cog, value: 25, suffix: "+", label: "Engineering Solutions" },
-              { icon: Award, value: 98, suffix: "%", label: "Client Satisfaction" },
+              { icon: Building2, value: 250, suffix: "+", label: "Infrastructure Projects" },
+              { icon: Sun, value: 1.5, suffix: " GW", label: "Solar Installations" },
+              { icon: Cog, value: 100, suffix: "+", label: "Engineering Solutions" },
+              { icon: Award, value: 99, suffix: "%", label: "Client Satisfaction" },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/80 p-4 shadow-soft backdrop-blur-md">
                 <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand/10 to-cyan/10 text-brand">
@@ -236,7 +216,7 @@ function Hero() {
                 </div>
                 <div className="leading-tight">
                   <div className="font-display text-2xl font-extrabold text-ink">
-                    <Counter to={s.value} suffix={s.suffix} />
+                    {s.value % 1 === 0 ? <Counter to={s.value} suffix={s.suffix} /> : <span>1.5{s.suffix}</span>}
                   </div>
                   <div className="text-[11px] font-semibold uppercase tracking-wider text-ink-soft">{s.label}</div>
                 </div>
