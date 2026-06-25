@@ -136,10 +136,10 @@ function Hero() {
         transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* subtle readability overlay for left-side text */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/90 via-white/70 to-transparent" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/30 via-transparent to-white/70" />
-      <div className="absolute inset-0 -z-10 grid-bg opacity-20" />
+      {/* subtle overlay so left-side text stays readable over the mockup */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/80 via-white/40 to-transparent" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white/20 via-transparent to-white/50" />
+      <div className="absolute inset-0 -z-10 grid-bg opacity-15" />
 
       {/* animated color blobs */}
       <motion.div
